@@ -13,28 +13,28 @@ List<Transaction> transactions = [
     value: 15.90,
     date: DateTime.now(),
   ),
-  // Transaction(
-  //   id: 'T3',
-  //   title: 'Passagem de ônibus',
-  //   value: 3.20,
-  //   date: DateTime.now(),
-  // ),
-  // Transaction(
-  //   id: 'T4',
-  //   title: 'Livro de ficção',
-  //   value: 29.99,
-  //   date: DateTime.now(),
-  // ),
-  // Transaction(
-  //   id: 'T5',
-  //   title: 'Cinema - Ingresso',
-  //   value: 12.00,
-  //   date: DateTime.now(),
-  // ),
-  // Transaction(
-  //   id: 'T6',
-  //   title: 'Almoço no restaurante',
-  //   value: 25.50,
-  //   date: DateTime.now(),
-  // )
+  Transaction(
+    id: 'T3',
+    title: 'Passagem de ônibus',
+    value: 3.20,
+    date: DateTime.now(),
+  ),
+  Transaction(
+    id: 'T4',
+    title: 'Livro de ficção',
+    value: 29.99,
+    date: DateTime.now(),
+  ),
+  Transaction(
+    id: 'T5',
+    title: 'Cinema - Ingresso',
+    value: 12.00,
+    date: DateTime.now(),
+  ),
+  Transaction(
+    id: 'T6',
+    title: 'Almoço no restaurante',
+    value: 25.50,
+    date: DateTime.now(),
+  )
 ];
