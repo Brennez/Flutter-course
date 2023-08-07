@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:expenses_app/components/chart.dart';
 import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -64,6 +65,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  List<Transaction> get _recentTransactions {
+    return transactions.where((transaction) {
+      return transaction.date
+          .isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,10 +100,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Card(
-                color: Colors.blue,
-                child: Text('Grafico'),
-              ),
+              Chart(recentTransactions: _recentTransactions),
               TransactionsList(transactions: transactions),
             ],
           ),
