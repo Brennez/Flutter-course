@@ -40,6 +40,9 @@ class _TransactionFormState extends State<TransactionForm> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                style: const TextStyle(
+                  color: Colors.purple,
+                ),
                 controller: titleController,
                 onSubmitted: (_) => _submitForm(),
                 decoration: InputDecoration(
@@ -62,6 +65,9 @@ class _TransactionFormState extends State<TransactionForm> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                style: const TextStyle(
+                  color: Colors.purple,
+                ),
                 controller: valueController,
                 onSubmitted: (_) => _submitForm(),
                 keyboardType:
