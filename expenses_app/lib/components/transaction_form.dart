@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/theme.dart';
+
 class TransactionForm extends StatefulWidget {
   final void Function(String, double) onSubmit;
 
@@ -44,14 +46,14 @@ class _TransactionFormState extends State<TransactionForm> {
                   labelText: 'Título',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(
-                      color: Colors.purple,
+                    borderSide: BorderSide(
+                      color: myTheme.colorScheme.primary,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(
-                      color: Colors.purple,
+                    borderSide: BorderSide(
+                      color: myTheme.colorScheme.primary,
                     ),
                   ),
                 ),
@@ -68,14 +70,14 @@ class _TransactionFormState extends State<TransactionForm> {
                   labelText: 'Valor',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(
-                      color: Colors.purple,
+                    borderSide: BorderSide(
+                      color: myTheme.colorScheme.primary,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(
-                      color: Colors.purple,
+                    borderSide: BorderSide(
+                      color: myTheme.colorScheme.primary,
                     ),
                   ),
                 ),

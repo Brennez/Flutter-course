@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenses_app/components/transaction_form.dart';
@@ -15,7 +16,8 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: myTheme,
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
@@ -66,8 +68,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: const Text('Despesas Pessoais'),
+        backgroundColor: myTheme.colorScheme.primary,
+        title: Text(
+          'Despesas Pessoais',
+          style: myTheme.textTheme.titleMedium,
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -76,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             },
             icon: const Icon(
               Icons.add,
-              size: 20,
+              size: 25,
               color: Colors.white,
             ),
           )
@@ -105,7 +110,7 @@ class _HomePageState extends State<HomePage> {
           size: 20,
           color: Colors.white,
         ),
-        backgroundColor: Colors.purple,
+        backgroundColor: myTheme.colorScheme.primary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

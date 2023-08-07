@@ -1,4 +1,5 @@
 import 'package:expenses_app/models/transaction.dart';
+import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,7 +29,7 @@ class TransactionsList extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.purple,
+                    color: myTheme.colorScheme.primary,
                   ),
                   child: Text(
                     'R\$ ${transaction.value.toStringAsFixed(2)}',
@@ -43,17 +44,15 @@ class TransactionsList extends StatelessWidget {
                   children: [
                     Text(
                       transaction.title,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                      ),
+                      style: myTheme.textTheme.titleLarge,
                     ),
-                    Text(DateFormat('d MMM y').format(transaction.date),
-                        style: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 13,
-                        ))
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      DateFormat('d MMM y').format(transaction.date),
+                      style: myTheme.textTheme.titleSmall,
+                    )
                   ],
                 ),
               ],
