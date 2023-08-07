@@ -17,8 +17,14 @@ final myTheme = ThemeData(
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    titleSmall: TextStyle(
+    displayMedium: TextStyle(
+      fontFamily: 'OpenSans',
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
       color: Colors.black54,
+    ),
+    titleSmall: TextStyle(
+      color: Colors.black87,
       fontSize: 13,
     ),
     bodySmall: TextStyle(
