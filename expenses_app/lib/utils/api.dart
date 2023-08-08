@@ -1,30 +1,30 @@
 import '../models/transaction.dart';
 
 List<Transaction> transactions = [
-  Transaction(
-    id: 'T1',
-    title: 'Refrigerante kero',
-    value: 250,
-    date: DateTime.now(),
-  ),
-  Transaction(
-    id: 'T1',
-    title: 'Refrigerante kero',
-    value: 2.50,
-    date: DateTime.now(),
-  ),
-  Transaction(
-    id: 'T2',
-    title: 'Lanche de hambúrguer',
-    value: 15.90,
-    date: DateTime.now().subtract(Duration(days: 2)),
-  ),
-  Transaction(
-    id: 'T2',
-    title: 'Lanche de hambúrguer',
-    value: 15.90,
-    date: DateTime.now().subtract(Duration(days: 2)),
-  ),
+  // Transaction(
+  //   id: 'T1',
+  //   title: 'Refrigerante kero',
+  //   value: 250,
+  //   date: DateTime.now(),
+  // ),
+  // Transaction(
+  //   id: 'T1',
+  //   title: 'Refrigerante kero',
+  //   value: 2.50,
+  //   date: DateTime.now(),
+  // ),
+  // Transaction(
+  //   id: 'T2',
+  //   title: 'Lanche de hambúrguer',
+  //   value: 15.90,
+  //   date: DateTime.now().subtract(Duration(days: 2)),
+  // ),
+  // Transaction(
+  //   id: 'T2',
+  //   title: 'Lanche de hambúrguer',
+  //   value: 15.90,
+  //   date: DateTime.now().subtract(Duration(days: 2)),
+  // ),
   // Transaction(
   //   id: 'T3',
   //   title: 'Passagem de ônibus',

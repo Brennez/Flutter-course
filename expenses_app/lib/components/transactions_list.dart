@@ -18,8 +18,10 @@ class _TransactionsListState extends State<TransactionsList> {
       height: MediaQuery.of(context).size.height * .9,
       child: widget.transactions.isEmpty
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Nenhuma transação cadastrada!',
                   style: myTheme.textTheme.displayMedium,

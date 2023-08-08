@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../utils/theme.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double) onSubmit;
+  final void Function(String, double, DateTime) onSubmit;
 
   final void Function(BuildContext context) onCloseModal;
 
@@ -30,7 +30,7 @@ class _TransactionFormState extends State<TransactionForm> {
         return;
       }
 
-      widget.onSubmit(newTitle, newValue);
+      widget.onSubmit(newTitle, newValue, _selectedDate);
     }
 
     _showDatePicker() async {
