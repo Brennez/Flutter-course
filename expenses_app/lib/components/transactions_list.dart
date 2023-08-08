@@ -1,17 +1,23 @@
 import 'package:expenses_app/models/transaction.dart';
+import 'package:expenses_app/utils/api.dart';
 import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TransactionsList extends StatelessWidget {
+class TransactionsList extends StatefulWidget {
   final List<Transaction> transactions;
   const TransactionsList({super.key, required this.transactions});
 
   @override
+  State<TransactionsList> createState() => _TransactionsListState();
+}
+
+class _TransactionsListState extends State<TransactionsList> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
-      child: transactions.isEmpty
+      height: MediaQuery.of(context).size.height * .9,
+      child: widget.transactions.isEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -30,50 +36,51 @@ class TransactionsList extends StatelessWidget {
               ],
             )
           : ListView.builder(
-              itemCount: transactions.length,
+              itemCount: widget.transactions.length,
               itemBuilder: (context, index) {
                 // ele pega a lista de transactions e itera pelo index
-                final transaction = transactions[index];
+                final transaction = widget.transactions[index];
 
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: myTheme.colorScheme.primary,
-                        ),
-                        child: Text(
-                          'R\$ ${transaction.value.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12),
+                  elevation: 6,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 20,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$ ${transaction.value.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12),
+                          ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transaction.title,
-                            style: myTheme.textTheme.titleLarge,
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            DateFormat('d MMM y').format(transaction.date),
-                            style: myTheme.textTheme.titleSmall,
-                          )
-                        ],
-                      ),
-                    ],
+                    ),
+                    title: Text(
+                      transaction.title,
+                      style: myTheme.textTheme.titleLarge,
+                    ),
+                    subtitle: Text(
+                      DateFormat('d MMM y').format(transaction.date),
+                      style: myTheme.textTheme.titleSmall,
+                    ),
+                    trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            transactions.removeAt(index);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red[400],
+                        )),
                   ),
                 );
               }),
