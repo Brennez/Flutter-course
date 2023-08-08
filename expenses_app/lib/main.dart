@@ -65,6 +65,12 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  _removeTransaction(String id) {
+    transactions.removeWhere((transaction) {
+      return transaction.id == id;
+    });
+  }
+
   List<Transaction> get _recentTransactions {
     return transactions.where((transaction) {
       return transaction.date
@@ -101,7 +107,9 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Chart(recentTransactions: _recentTransactions),
-              TransactionsList(transactions: transactions),
+              TransactionsList(
+                  transactions: transactions,
+                  removeTransaction: _removeTransaction),
             ],
           ),
         ),

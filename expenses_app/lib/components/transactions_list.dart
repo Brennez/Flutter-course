@@ -5,7 +5,10 @@ import 'package:intl/intl.dart';
 
 class TransactionsList extends StatefulWidget {
   final List<Transaction> transactions;
-  const TransactionsList({super.key, required this.transactions});
+
+  final Function(String) removeTransaction;
+  const TransactionsList(
+      {super.key, required this.transactions, required this.removeTransaction});
 
   @override
   State<TransactionsList> createState() => _TransactionsListState();
@@ -75,7 +78,7 @@ class _TransactionsListState extends State<TransactionsList> {
                     trailing: IconButton(
                         onPressed: () {
                           setState(() {
-                            // transactions.removeAt(index);
+                            widget.removeTransaction(transaction.id);
                           });
                         },
                         icon: Icon(
