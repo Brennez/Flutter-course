@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/theme.dart';
 
@@ -15,14 +16,15 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
+  DateTime _selectedDate = DateTime.now();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController valueController = TextEditingController();
-
     void _submitForm() {
-      final newTitle = titleController.text;
-      final newValue = double.tryParse(valueController.text) ?? 0.0;
+      final newTitle = _titleController.text;
+      final newValue = double.tryParse(_valueController.text) ?? 0.0;
 
       if (newTitle.isEmpty || newValue < 0) {
         return;
@@ -31,112 +33,192 @@ class _TransactionFormState extends State<TransactionForm> {
       widget.onSubmit(newTitle, newValue);
     }
 
+    _showDatePicker() async {
+      var newDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2019),
+        lastDate: DateTime.now(),
+        // helpText: 'Selecione a data da despesa',
+      );
+      if (newDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = newDate;
+      });
+    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Card(
         elevation: 0,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                style: const TextStyle(
-                  color: Colors.purple,
-                ),
-                controller: titleController,
-                onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Título',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: myTheme.colorScheme.primary,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: myTheme.colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                style: const TextStyle(
-                  color: Colors.purple,
-                ),
-                controller: valueController,
-                onSubmitted: (_) => _submitForm(),
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: 'Valor',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: myTheme.colorScheme.primary,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: myTheme.colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ),
+            Text(
+              "Adicione uma transação",
+              style: myTheme.textTheme.titleLarge!.copyWith(fontSize: 20),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 40,
-                        ),
-                        backgroundColor: Colors.red[600],
-                        alignment: Alignment.center,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                    child: const Text(
-                      'Voltar',
-                      style: TextStyle(
-                        color: Colors.white,
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  style: const TextStyle(
+                    color: Colors.purple,
+                  ),
+                  controller: _titleController,
+                  onSubmitted: (_) => _submitForm(),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    labelText: 'Título',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: myTheme.colorScheme.primary,
                       ),
                     ),
-                    onPressed: () => widget.onCloseModal(context),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: myTheme.colorScheme.primary,
+                      ),
+                    ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  child: TextButton(
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  style: const TextStyle(
+                    color: Colors.purple,
+                  ),
+                  controller: _valueController,
+                  onSubmitted: (_) => _submitForm(),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    labelText: 'Valor',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: myTheme.colorScheme.primary,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: myTheme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: _selectedDate != null
+                            ? Text(
+                                'Data: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+                                style: myTheme.textTheme.displaySmall!.copyWith(
+                                  color: myTheme.colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Text('Data nula')),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: _showDatePicker,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Selecionar Data',
+                            style: myTheme.textTheme.displaySmall!.copyWith(
+                              color: myTheme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Icon(
+                            Icons.calendar_month_outlined,
+                            size: 18,
+                            color: myTheme.colorScheme.primary,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: TextButton(
                       style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             vertical: 10,
-                            horizontal: 16,
+                            horizontal: 40,
                           ),
-                          backgroundColor: Colors.green[600],
+                          backgroundColor: Colors.red[600],
                           alignment: Alignment.center,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20))),
+                      child: const Text(
+                        'Voltar',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () => widget.onCloseModal(context),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 16,
+                        ),
+                        backgroundColor: Colors.green[600],
+                        alignment: Alignment.center,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: _submitForm,
                       child: const Text(
                         'Adicionar transação',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: _submitForm),
-                ),
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

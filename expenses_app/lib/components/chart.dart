@@ -29,8 +29,8 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(dayAcronym);
-      print(totSum);
+      // print(dayAcronym);
+      // print(totSum);
 
       return {
         'day': dayAcronym,

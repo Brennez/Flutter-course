@@ -1,5 +1,4 @@
 import 'package:expenses_app/models/transaction.dart';
-import 'package:expenses_app/utils/api.dart';
 import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -74,7 +73,7 @@ class _TransactionsListState extends State<TransactionsList> {
                     trailing: IconButton(
                         onPressed: () {
                           setState(() {
-                            transactions.removeAt(index);
+                            // transactions.removeAt(index);
                           });
                         },
                         icon: Icon(
