@@ -82,36 +82,48 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: myTheme.colorScheme.primary,
-        title: Text(
-          'Despesas Pessoais',
-          style: myTheme.textTheme.titleMedium,
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              _openTransactionFormModal(context);
-            },
-            icon: const Icon(
-              Icons.add,
-              size: 25,
-              color: Colors.white,
-            ),
-          )
-        ],
+    AppBar appBar = AppBar(
+      backgroundColor: myTheme.colorScheme.primary,
+      title: Text(
+        'Despesas Pessoais',
+        style: myTheme.textTheme.titleMedium,
       ),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {
+            _openTransactionFormModal(context);
+          },
+          icon: const Icon(
+            Icons.add,
+            size: 25,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+
+    final avaliableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Chart(recentTransactions: _recentTransactions),
-              TransactionsList(
-                  transactions: transactions,
-                  removeTransaction: _removeTransaction),
+              Container(
+                height: avaliableHeight * .3,
+                child: Chart(recentTransactions: _recentTransactions),
+              ),
+              Container(
+                height: avaliableHeight * .7,
+                child: TransactionsList(
+                    transactions: transactions,
+                    removeTransaction: _removeTransaction),
+              ),
             ],
           ),
         ),
