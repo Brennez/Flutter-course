@@ -15,10 +15,53 @@ class TransactionsList extends StatefulWidget {
 }
 
 class _TransactionsListState extends State<TransactionsList> {
+  Future<void> _showConfirmationDialog(BuildContext context, String id) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirmação',
+                style: myTheme.textTheme.titleLarge!.copyWith(
+                  color: myTheme.primaryColor,
+                )),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Deseja excluir esta transação?',
+                    style: myTheme.textTheme.titleLarge,
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  'Cancelar',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fecha o diálogo
+                },
+              ),
+              TextButton(
+                child: const Text(
+                  'Confirmar',
+                ),
+                onPressed: () {
+                  widget.removeTransaction(id);
+                  Navigator.of(context).pop(); // Fecha o diálogo
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .9,
+      height: MediaQuery.of(context).size.height * .6,
       child: widget.transactions.isEmpty
           ? Column(
               children: [
@@ -78,7 +121,7 @@ class _TransactionsListState extends State<TransactionsList> {
                     trailing: IconButton(
                         onPressed: () {
                           setState(() {
-                            widget.removeTransaction(transaction.id);
+                            _showConfirmationDialog(context, transaction.id);
                           });
                         },
                         icon: Icon(

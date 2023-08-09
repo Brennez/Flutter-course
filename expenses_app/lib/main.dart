@@ -66,8 +66,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   _removeTransaction(String id) {
-    transactions.removeWhere((transaction) {
-      return transaction.id == id;
+    setState(() {
+      transactions.removeWhere((transaction) {
+        return transaction.id == id;
+      });
     });
   }
 
