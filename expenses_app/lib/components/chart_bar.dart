@@ -15,51 +15,55 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 14,
-          child: FittedBox(
-            child: Text(
-              '${value.toStringAsFixed(2)}',
-              style: myTheme.textTheme.titleSmall,
-            ),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          height: 60,
-          width: 10,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(
-              color: Colors.grey,
-            ),
-          ),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: const Color.fromRGBO(220, 220, 220, 1),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          children: [
+            Container(
+              height: constraints.maxHeight * 0.15,
+              child: FittedBox(
+                child: Text(
+                  '${value == 0.0 ? '_' : value.toStringAsFixed(2)}',
+                  style: myTheme.textTheme.titleSmall,
                 ),
               ),
-              FractionallySizedBox(
-                heightFactor: percentage,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: myTheme.primaryColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
+            ),
+            SizedBox(height: constraints.maxHeight * 0.05),
+            Container(
+              height: constraints.maxHeight * 0.6,
+              width: 10,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: Colors.grey,
                 ),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(label),
-      ],
+                color: const Color.fromRGBO(220, 220, 220, 1),
+              ),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  FractionallySizedBox(
+                    heightFactor: percentage,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: myTheme.primaryColor,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: constraints.maxHeight * 0.05),
+            Container(
+              height: constraints.maxHeight * 0.15,
+              child: FittedBox(
+                child: Text(label),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
