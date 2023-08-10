@@ -17,6 +17,9 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
     return MaterialApp(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
@@ -33,6 +36,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _showChart = true;
   void _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
@@ -107,6 +111,9 @@ class _HomePageState extends State<HomePage> {
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
 
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       appBar: appBar,
       body: SafeArea(
@@ -114,16 +121,39 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                height: avaliableHeight * .3,
-                child: Chart(recentTransactions: _recentTransactions),
-              ),
-              Container(
-                height: avaliableHeight * .7,
-                child: TransactionsList(
-                    transactions: transactions,
-                    removeTransaction: _removeTransaction),
-              ),
+              if (isLandscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Exibir gráfico ',
+                      style: myTheme.textTheme.displaySmall!.copyWith(
+                        color: myTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Switch(
+                      value: _showChart,
+                      onChanged: (value) {
+                        setState(() {
+                          _showChart = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (_showChart || !isLandscape)
+                Container(
+                  height: avaliableHeight * (isLandscape ? .7 : .3),
+                  child: Chart(recentTransactions: _recentTransactions),
+                ),
+              if (!_showChart || !isLandscape)
+                Container(
+                  height: avaliableHeight * .7,
+                  child: TransactionsList(
+                      transactions: transactions,
+                      removeTransaction: _removeTransaction),
+                ),
             ],
           ),
         ),
