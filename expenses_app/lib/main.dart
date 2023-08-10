@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
+      // isScrollControlled: true,
       elevation: 0,
       context: context,
       builder: (_) {
@@ -86,6 +87,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     AppBar appBar = AppBar(
       backgroundColor: myTheme.colorScheme.primary,
       title: Text(
@@ -94,6 +97,19 @@ class _HomePageState extends State<HomePage> {
       ),
       centerTitle: true,
       actions: [
+        if (isLandscape)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+            icon: Icon(
+              _showChart ? Icons.list_alt_rounded : Icons.bar_chart_rounded,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
         IconButton(
           onPressed: () {
             _openTransactionFormModal(context);
@@ -103,16 +119,13 @@ class _HomePageState extends State<HomePage> {
             size: 25,
             color: Colors.white,
           ),
-        )
+        ),
       ],
     );
 
     final avaliableHeight = MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
-
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Scaffold(
       appBar: appBar,
@@ -121,27 +134,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (isLandscape)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Exibir gráfico ',
-                      style: myTheme.textTheme.displaySmall!.copyWith(
-                        color: myTheme.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Switch(
-                      value: _showChart,
-                      onChanged: (value) {
-                        setState(() {
-                          _showChart = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
               if (_showChart || !isLandscape)
                 Container(
                   height: avaliableHeight * (isLandscape ? .7 : .3),
@@ -149,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               if (!_showChart || !isLandscape)
                 Container(
-                  height: avaliableHeight * .7,
+                  height: avaliableHeight * (isLandscape ? 1 : .6),
                   child: TransactionsList(
                       transactions: transactions,
                       removeTransaction: _removeTransaction),
