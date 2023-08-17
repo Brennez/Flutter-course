@@ -61,25 +61,32 @@ class _TransactionsListState extends State<TransactionsList> {
   @override
   Widget build(BuildContext context) {
     return widget.transactions.isEmpty
-        ? Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Nenhuma transação cadastrada!',
-                style: myTheme.textTheme.displayMedium,
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              Image.asset(
-                'assets/images/waiting.png',
-                fit: BoxFit.contain,
-                height: MediaQuery.of(context).size.height * .3,
-              )
-            ],
-          )
+        ? LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: [
+                SizedBox(
+                  height: constraints.maxHeight * 0.05,
+                ),
+                SizedBox(
+                  height: 20,
+                  child: Text(
+                    'Nenhuma transação cadastrada!',
+                    style: myTheme.textTheme.displayMedium,
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  height: constraints.maxHeight * 0.5,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.contain,
+                  ),
+                )
+              ],
+            );
+          })
         : ListView.builder(
             itemCount: widget.transactions.length,
             itemBuilder: (context, index) {
@@ -116,16 +123,32 @@ class _TransactionsListState extends State<TransactionsList> {
                     DateFormat('d MMM y').format(transaction.date),
                     style: myTheme.textTheme.titleSmall,
                   ),
-                  trailing: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _showConfirmationDialog(context, transaction.id);
-                        });
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red[400],
-                      )),
+                  trailing: MediaQuery.of(context).size.width > 480
+                      ? TextButton.icon(
+                          onPressed: () => setState(() {
+                                _showConfirmationDialog(
+                                    context, transaction.id);
+                              }),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red[400],
+                          ),
+                          label: Text(
+                            'Excluir',
+                            style: myTheme.textTheme.displaySmall!.copyWith(
+                              color: Colors.red,
+                            ),
+                          ))
+                      : IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showConfirmationDialog(context, transaction.id);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red[400],
+                          )),
                 ),
               );
             });

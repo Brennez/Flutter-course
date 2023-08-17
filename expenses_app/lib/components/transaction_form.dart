@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../utils/theme.dart';
+import 'transaction_button.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -39,6 +40,8 @@ class _TransactionFormState extends State<TransactionForm> {
         initialDate: DateTime.now(),
         firstDate: DateTime(2019),
         lastDate: DateTime.now(),
+        confirmText: 'Confirmar',
+        cancelText: 'Cancelar',
         // helpText: 'Selecione a data da despesa',
       );
       if (newDate == null) {
@@ -194,29 +197,10 @@ class _TransactionFormState extends State<TransactionForm> {
                       onPressed: () => widget.onCloseModal(context),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 16,
-                        ),
-                        backgroundColor: Colors.green[600],
-                        alignment: Alignment.center,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: _submitForm,
-                      child: const Text(
-                        'Adicionar transação',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  AdaptativeButton(
+                    label: 'Adicionar transação',
+                    onPressed: _submitForm,
+                  )
                 ],
               ),
             ),
