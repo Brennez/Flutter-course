@@ -1,7 +1,7 @@
+import 'package:expenses_app/components/transaction_item.dart';
 import 'package:expenses_app/models/transaction.dart';
 import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionsList extends StatefulWidget {
   final List<Transaction> transactions;
@@ -92,65 +92,14 @@ class _TransactionsListState extends State<TransactionsList> {
             itemBuilder: (context, index) {
               // ele pega a lista de transactions e itera pelo index
               final transaction = widget.transactions[index];
+              // final id = widget.transactions[index].id;
 
-              return Card(
-                elevation: 6,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 20,
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: FittedBox(
-                        child: Text(
-                          'R\$ ${transaction.value.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    transaction.title,
-                    style: myTheme.textTheme.titleLarge,
-                  ),
-                  subtitle: Text(
-                    DateFormat('d MMM y').format(transaction.date),
-                    style: myTheme.textTheme.titleSmall,
-                  ),
-                  trailing: MediaQuery.of(context).size.width > 480
-                      ? TextButton.icon(
-                          onPressed: () => setState(() {
-                                _showConfirmationDialog(
-                                    context, transaction.id);
-                              }),
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red[400],
-                          ),
-                          label: Text(
-                            'Excluir',
-                            style: myTheme.textTheme.displaySmall!.copyWith(
-                              color: Colors.red,
-                            ),
-                          ))
-                      : IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _showConfirmationDialog(context, transaction.id);
-                            });
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red[400],
-                          )),
-                ),
-              );
+              return TransactionItem(
+                  key: GlobalObjectKey(transaction),
+                  transaction: transaction,
+                  showConfirmation: (context, id) {
+                    _showConfirmationDialog(context, id);
+                  });
             });
   }
 }

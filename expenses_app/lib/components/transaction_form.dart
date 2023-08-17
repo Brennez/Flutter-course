@@ -1,3 +1,4 @@
+import 'package:expenses_app/components/text_field_input.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -65,65 +66,15 @@ class _TransactionFormState extends State<TransactionForm> {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  style: const TextStyle(
-                    color: Colors.purple,
-                  ),
-                  controller: _titleController,
-                  onSubmitted: (_) => _submitForm(),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
-                    labelText: 'Título',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: myTheme.colorScheme.primary,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: myTheme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            TransactionInput(
+              controller: _titleController,
+              label: 'Título',
+              onSubmit: () => _submitForm(),
             ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  style: const TextStyle(
-                    color: Colors.purple,
-                  ),
-                  controller: _valueController,
-                  onSubmitted: (_) => _submitForm(),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
-                    labelText: 'Valor',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: myTheme.colorScheme.primary,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                        color: myTheme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            TransactionInput(
+              controller: _valueController,
+              label: 'Valor',
+              onSubmit: () => _submitForm(),
             ),
             Expanded(
               flex: 1,
@@ -141,7 +92,7 @@ class _TransactionFormState extends State<TransactionForm> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
-                            : Text('Data nula')),
+                            : const Text('Data nula')),
                   ),
                   Expanded(
                     flex: 2,
