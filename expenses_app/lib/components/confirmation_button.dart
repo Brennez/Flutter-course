@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AdaptativeButton extends StatelessWidget {
+class ConfirmationButton extends StatelessWidget {
   final String label;
   final Function() onPressed;
 
-  AdaptativeButton({super.key, required this.label, required this.onPressed});
+  const ConfirmationButton(
+      {super.key, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

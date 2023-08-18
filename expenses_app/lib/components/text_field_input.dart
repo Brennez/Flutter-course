@@ -6,11 +6,14 @@ class TransactionInput extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final Function() onSubmit;
-  const TransactionInput(
-      {super.key,
-      required this.controller,
-      required this.label,
-      required this.onSubmit});
+  final TextInputType keyboardType;
+  const TransactionInput({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.onSubmit,
+    required this.keyboardType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,9 @@ class TransactionInput extends StatelessWidget {
           ),
           controller: controller,
           onSubmitted: (_) => onSubmit,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10),
+            contentPadding: const EdgeInsets.all(10),
             labelText: label,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
