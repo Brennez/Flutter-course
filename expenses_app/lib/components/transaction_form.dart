@@ -1,9 +1,10 @@
+import 'package:expenses_app/components/confirmation_button.dart';
 import 'package:expenses_app/components/text_field_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 
 import '../utils/theme.dart';
-import 'transaction_button.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -20,12 +21,15 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _valueController = TextEditingController();
+  final MoneyMaskedTextController _valueController =
+      MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: '');
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     void _submitForm() {
       final newTitle = _titleController.text;
+
       final newValue = double.tryParse(_valueController.text) ?? 0.0;
 
       if (newTitle.isEmpty || newValue < 0) {
@@ -35,6 +39,7 @@ class _TransactionFormState extends State<TransactionForm> {
       widget.onSubmit(newTitle, newValue, _selectedDate);
     }
 
+    // ignore: no_leading_underscores_for_local_identifiers
     _showDatePicker() async {
       var newDate = await showDatePicker(
         context: context,
@@ -68,10 +73,13 @@ class _TransactionFormState extends State<TransactionForm> {
             ),
             TransactionInput(
               controller: _titleController,
+              keyboardType: TextInputType.text,
               label: 'Título',
               onSubmit: () => _submitForm(),
             ),
             TransactionInput(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               controller: _valueController,
               label: 'Valor',
               onSubmit: () => _submitForm(),
@@ -148,7 +156,7 @@ class _TransactionFormState extends State<TransactionForm> {
                       onPressed: () => widget.onCloseModal(context),
                     ),
                   ),
-                  AdaptativeButton(
+                  ConfirmationButton(
                     label: 'Adicionar transação',
                     onPressed: _submitForm,
                   )

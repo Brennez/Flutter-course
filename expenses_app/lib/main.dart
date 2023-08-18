@@ -1,15 +1,18 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:expenses_app/components/chart.dart';
 import 'package:expenses_app/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenses_app/components/transaction_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/transactions_list.dart';
 import 'models/transaction.dart';
 import 'utils/api.dart';
+import 'utils/shared_consts.dart';
 
 void main() {
-  runApp(ExpensesApp());
+  runApp(const ExpensesApp());
 }
 
 class ExpensesApp extends StatelessWidget {
@@ -23,7 +26,7 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
@@ -36,7 +39,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _loadTransactions();
+    });
+  }
+
   bool _showChart = true;
+
+  Future<void> _loadTransactions() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String transactionJson =
+        _prefs.getString(SharedConsts.transactionKey) ?? '[]';
+
+    List<dynamic> transactionData = json.decode(transactionJson);
+
+    setState(() {
+      transactions = transactionData
+          .map((transaction) => Transaction.fromJson(transaction))
+          .toList();
+    });
+  }
+
+  Future<void> _saveTransactions() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String transactionJson = json.encode(transactions);
+
+    await _prefs.setString(SharedConsts.transactionKey, transactionJson);
+  }
 
   void _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
@@ -48,6 +82,7 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       transactions.add(newTransaction);
+      _saveTransactions();
     });
 
     _closeTransactionFormModal(context);
@@ -93,7 +128,7 @@ class _HomePageState extends State<HomePage> {
     AppBar appBar = AppBar(
       backgroundColor: myTheme.colorScheme.primary,
       title: Text(
-        'Despesas Pessoais',
+        'Minhas Despesas',
         style: myTheme.textTheme.titleMedium,
       ),
       centerTitle: true,
@@ -136,12 +171,12 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_showChart || !isLandscape)
-                Container(
+                SizedBox(
                   height: avaliableHeight * (isLandscape ? .7 : .3),
                   child: Chart(recentTransactions: _recentTransactions),
                 ),
               if (!_showChart || !isLandscape)
-                Container(
+                SizedBox(
                   height: avaliableHeight * (isLandscape ? 1 : .6),
                   child: TransactionsList(
                       transactions: transactions,
@@ -155,12 +190,12 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           _openTransactionFormModal(context);
         },
-        child: Icon(
+        backgroundColor: myTheme.colorScheme.primary,
+        child: const Icon(
           Icons.add,
           size: 20,
           color: Colors.white,
         ),
-        backgroundColor: myTheme.colorScheme.primary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

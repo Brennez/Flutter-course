@@ -68,7 +68,6 @@ class _TransactionsListState extends State<TransactionsList> {
                   height: constraints.maxHeight * 0.05,
                 ),
                 SizedBox(
-                  height: 20,
                   child: Text(
                     'Nenhuma transação cadastrada!',
                     style: myTheme.textTheme.displayMedium,
