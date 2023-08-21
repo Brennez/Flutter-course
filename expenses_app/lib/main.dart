@@ -23,6 +23,7 @@ class ExpensesApp extends StatelessWidget {
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     // ]);
+
     return MaterialApp(
       theme: myTheme,
       debugShowCheckedModeBanner: false,
