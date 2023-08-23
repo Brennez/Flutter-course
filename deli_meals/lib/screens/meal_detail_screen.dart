@@ -10,7 +10,9 @@ class MealDetailScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Text(
         title,
-        style: myTheme.textTheme.bodyLarge,
+        style: myTheme.textTheme.bodyLarge!.copyWith(
+          color: Colors.black54,
+        ),
       ),
     );
   }
@@ -39,6 +41,7 @@ class MealDetailScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: myTheme.primaryColor,
           title: Text(meal.title),
         ),
         body: Padding(
@@ -89,7 +92,11 @@ class MealDetailScreen extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: CircleAvatar(
-                              child: Text('${index + 1}'),
+                              backgroundColor: myTheme.primaryColor,
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
                             title: Text(meal.steps[index]),
                           ),

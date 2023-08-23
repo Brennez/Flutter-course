@@ -1,6 +1,7 @@
 import 'package:deli_meals/components/meal_item.dart';
 import 'package:deli_meals/models/category.dart';
 import 'package:deli_meals/utils/dummy_meals.dart';
+import 'package:deli_meals/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesMealsScreen extends StatelessWidget {
@@ -17,6 +18,7 @@ class CategoriesMealsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: myTheme.primaryColor,
         title: Text(category.title),
         centerTitle: true,
       ),
