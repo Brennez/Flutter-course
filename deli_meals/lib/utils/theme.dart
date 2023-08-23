@@ -7,7 +7,15 @@ ThemeData myTheme = ThemeData(
   textTheme: ThemeData.light().textTheme.copyWith(
         bodyLarge: const TextStyle(
           fontSize: 20,
+          color: Colors.white,
           fontFamily: 'RobotoCondensed',
+          fontWeight: FontWeight.bold,
+        ),
+        titleLarge: TextStyle(
+          fontFamily: 'Raleway',
+          fontSize: 20,
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
         ),
         displaySmall: TextStyle(
           fontFamily: 'RobotoCondensed-Regular',
