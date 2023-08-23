@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 ThemeData myTheme = ThemeData(
-  primarySwatch: Colors.pink,
   primaryColor: Colors.pink,
   fontFamily: 'Raleway',
   canvasColor: const Color.fromRGBO(255, 254, 229, 1),
@@ -9,6 +8,10 @@ ThemeData myTheme = ThemeData(
         bodyLarge: const TextStyle(
           fontSize: 20,
           fontFamily: 'RobotoCondensed',
+        ),
+        displaySmall: TextStyle(
+          fontFamily: 'RobotoCondensed-Regular',
+          fontSize: 16,
         ),
       ),
 );

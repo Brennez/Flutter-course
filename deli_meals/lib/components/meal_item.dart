@@ -48,7 +48,7 @@ class MealItem extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   width: 300,
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 20,
                   ),
@@ -60,7 +60,7 @@ class MealItem extends StatelessWidget {
                     textAlign: TextAlign.center,
                     softWrap: true,
                     overflow: TextOverflow.fade,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),
@@ -77,36 +77,45 @@ class MealItem extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.schedule,
-                        color: myTheme.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                       const SizedBox(
                         width: 6,
                       ),
-                      Text("${meal.duration} min"),
+                      Text(
+                        "${meal.duration} min",
+                        style: myTheme.textTheme.displaySmall,
+                      ),
                     ],
                   ),
                   Row(
                     children: [
                       Icon(
                         Icons.work_outline_outlined,
-                        color: myTheme.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                       const SizedBox(
                         width: 6,
                       ),
-                      Text(meal.complexyText),
+                      Text(
+                        meal.complexyText,
+                        style: myTheme.textTheme.displaySmall,
+                      ),
                     ],
                   ),
                   Row(
                     children: [
                       Icon(
                         Icons.attach_money_outlined,
-                        color: myTheme.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                       const SizedBox(
                         width: 6,
                       ),
-                      Text(meal.costText),
+                      Text(
+                        meal.costText,
+                        style: myTheme.textTheme.displaySmall,
+                      ),
                     ],
                   ),
                 ],
