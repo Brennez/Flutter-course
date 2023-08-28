@@ -1,18 +1,22 @@
-import 'package:deli_meals/components/meal_item.dart';
-import 'package:deli_meals/models/category.dart';
-import 'package:deli_meals/utils/dummy_meals.dart';
-import 'package:deli_meals/utils/theme.dart';
 import 'package:flutter/material.dart';
 
+import '../components/meal_item.dart';
+import '../models/category.dart';
+import '../utils/theme.dart';
+
+import '../models/meal.dart';
+
 class CategoriesMealsScreen extends StatelessWidget {
-  const CategoriesMealsScreen({super.key});
+  final List<Meal> meals;
+
+  const CategoriesMealsScreen({super.key, required this.meals});
 
   @override
   Widget build(BuildContext context) {
     var category = ModalRoute.of(context)?.settings.arguments as Category;
 
     // filtra apenas as categoria específica
-    final categoryMeals = DUMMY_MEALS.where((meal) {
+    final categoryMeals = meals.where((meal) {
       return meal.categories.contains(category.id);
     }).toList();
 
