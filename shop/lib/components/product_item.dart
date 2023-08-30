@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/utils/app_routes.dart';
 
 import '../models/product.dart';
 
@@ -11,10 +12,6 @@ class ProductItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
-        child: Image.network(
-          product.imageUrl,
-          fit: BoxFit.cover,
-        ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(
@@ -32,6 +29,18 @@ class ProductItem extends StatelessWidget {
             icon: Icon(
               Icons.shopping_cart_outlined,
             ),
+          ),
+        ),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              AppRoutes.PRODUCT_DETAIL,
+              arguments: product,
+            );
+          },
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
           ),
         ),
       ),
