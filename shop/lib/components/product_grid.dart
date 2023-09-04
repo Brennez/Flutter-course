@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/product.dart';
 import '../models/products_list.dart';
-import 'product_item.dart';
+import 'product_grid_item.dart';
 
 class ProductGrid extends StatelessWidget {
   final bool showFavoriteOnly;
@@ -41,7 +41,7 @@ class ProductGrid extends StatelessWidget {
             itemBuilder: (context, index) {
               return ChangeNotifierProvider.value(
                 value: loadedProducts[index],
-                child: ProductItem(),
+                child: ProductGridItem(),
               );
             },
           );

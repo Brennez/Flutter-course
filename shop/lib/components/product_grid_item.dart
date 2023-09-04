@@ -5,8 +5,8 @@ import 'package:shop/utils/app_routes.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
 
-class ProductItem extends StatelessWidget {
-  const ProductItem({super.key});
+class ProductGridItem extends StatelessWidget {
+  const ProductGridItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +46,24 @@ class ProductItem extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Produto adicionado com sucesso'),
+                  duration: const Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'Cancelar',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ),
+              );
               cart.addItem(product);
             },
             icon: Icon(Icons.shopping_cart_rounded),
+          ),
+          subtitle: Text(
+            '${cart.countSpecificItem(product.id)}x',
           ),
         ),
         child: GestureDetector(
