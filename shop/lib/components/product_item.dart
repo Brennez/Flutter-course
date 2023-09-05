@@ -1,10 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/models/products_list.dart';
+
+import '../utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
 
   const ProductItem({super.key, required this.product});
+
+  void _showConfirmationDialog(BuildContext context, Product product) {
+    ProductList productList = Provider.of<ProductList>(context, listen: false);
+
+    showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Confirmação'),
+        content: const Text('Deseja remover esse produto da loja?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text(
+              'Sim',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text(
+              'Não',
+            ),
+          ),
+        ],
+      ),
+    ).then((value) {
+      if (value ?? false) {
+        productList.removeProduct(product.id);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +58,19 @@ class ProductItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    AppRoutes.PRODUCT_FORM,
+                    arguments: product,
+                  );
+                },
                 icon: Icon(
                   Icons.edit,
                   color: Color.fromARGB(255, 38, 75, 41),
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => _showConfirmationDialog(context, product),
                 icon: Icon(
                   Icons.delete,
                   color: Theme.of(context).colorScheme.error,
