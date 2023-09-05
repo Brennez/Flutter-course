@@ -43,7 +43,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     _formKey.currentState?.save();
 
     var newProduct = Product(
-      id: Random().nextDouble() as String,
+      id: Random().nextDouble().toString(),
       name: _formData['name'] as String,
       description: _formData['description'] as String,
       price: _formData['price'] as double,
@@ -54,6 +54,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     print(newProduct.name);
     print(newProduct.description);
     print(newProduct.price);
+    print(newProduct.imageUrl);
   }
 
   @override
