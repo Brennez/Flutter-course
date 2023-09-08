@@ -56,8 +56,8 @@ class TaskComponent extends StatelessWidget {
             subtitle: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8),
                   child: Icon(
                     Icons.monetization_on,
                     color: kFloatingActionButtonColor,
@@ -79,11 +79,3 @@ class TaskComponent extends StatelessWidget {
     );
   }
 }
-
-// todo.isDone
-//                   ? myTheme.textTheme.bodyMedium
-//                   : myTheme.textTheme.bodyMedium!.copyWith(
-//                       color: kSubtitleTextColor,
-//                       decoration: TextDecoration.lineThrough,
-//                       decorationThickness: 2,
-//                     ),
