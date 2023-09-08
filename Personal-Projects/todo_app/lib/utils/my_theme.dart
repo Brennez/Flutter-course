@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/utils/consts_colors.dart';
 
 final ThemeData myTheme = ThemeData(
-  primaryColor: kBackgroundColor,
+  colorScheme: ColorScheme.light(
+    background: kBackgroundColor,
+    secondary: kFloatingActionButtonColor,
+  ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       fontFamily: 'Inter-Bold',
@@ -37,6 +40,29 @@ final ThemeData myTheme = ThemeData(
         color: kStrokeColor,
       ),
     ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    contentPadding: const EdgeInsets.all(10),
+    hintStyle: TextStyle(
+      fontFamily: 'Inter-Medium',
+      color: Colors.grey,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(
+        color: kStrokeColor,
+        strokeAlign: BorderSide.strokeAlignOutside,
+        width: 2,
+      ),
+      borderRadius: BorderRadius.circular(40),
+    ),
+    border: const OutlineInputBorder(),
+    focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          strokeAlign: BorderSide.strokeAlignOutside,
+          width: 2,
+          color: kBackgroundColor,
+        ),
+        borderRadius: BorderRadius.circular(40)),
   ),
   unselectedWidgetColor: kCheckBoxColor,
 );

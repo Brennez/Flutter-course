@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/models/product.dart';
-import 'package:shop/models/products_list.dart';
 
+import '../models/product.dart';
+import '../models/products_list.dart';
+
+import '../exceptions/http_error.dart';
 import '../utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {
@@ -12,6 +14,8 @@ class ProductItem extends StatelessWidget {
 
   void _showConfirmationDialog(BuildContext context, Product product) {
     ProductList productList = Provider.of<ProductList>(context, listen: false);
+
+    final msg = ScaffoldMessenger.of(context);
 
     showDialog<bool>(
       context: context,
@@ -32,15 +36,21 @@ class ProductItem extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text(
+            child: const Text(
               'Não',
             ),
           ),
         ],
       ),
-    ).then((value) {
-      if (value ?? false) {
-        productList.removeProduct(product.id);
+    ).then((value) async {
+      try {
+        if (value ?? false) {
+          await productList.removeProduct(product);
+        }
+      } on HttpError catch (error) {
+        msg.showSnackBar(SnackBar(
+          content: Text(error.toString()),
+        ));
       }
     });
   }
@@ -52,7 +62,7 @@ class ProductItem extends StatelessWidget {
           backgroundImage: NetworkImage(product.imageUrl),
         ),
         title: Text(product.name),
-        trailing: Container(
+        trailing: SizedBox(
           width: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +74,7 @@ class ProductItem extends StatelessWidget {
                     arguments: product,
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.edit,
                   color: Color.fromARGB(255, 38, 75, 41),
                 ),

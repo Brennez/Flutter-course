@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/components/header_component.dart';
 import 'package:todo_app/providers/todo_provider.dart';
-import 'package:todo_app/utils/data.dart';
 
 import '../components/task_component.dart';
+import '../components/todo_form_modal_component.dart';
 import '../utils/consts_colors.dart';
 import '../utils/my_theme.dart';
 
@@ -98,7 +98,21 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20)),
+              ),
+              elevation: 0,
+              backgroundColor: Colors.white,
+              context: context,
+              builder: (context) {
+                return TodoFormComponent();
+              },
+            );
+          },
           shape: RoundedRectangleBorder(
             side: const BorderSide(
               color: kStrokeColor,
