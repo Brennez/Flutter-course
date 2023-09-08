@@ -32,7 +32,7 @@ class Cart with ChangeNotifier {
     return count;
   }
 
-  void addItem(Product product) {
+  Future<void> addItem(Product product) async {
     if (_items.containsKey(product.id)) {
       _items.update(
         product.id,

@@ -51,17 +51,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )),
-                    onPressed: () {
-                      orderList.addOrder(cart);
-                      cart.clear();
-                    },
-                    child: Text('COMPRAR'),
-                  )
+                  CartButton(cart: cart, orderList: orderList)
                 ],
               ),
             ),
@@ -76,5 +66,49 @@ class CartPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class CartButton extends StatefulWidget {
+  const CartButton({
+    super.key,
+    required this.cart,
+    required this.orderList,
+  });
+
+  final Cart cart;
+  final OrderList orderList;
+
+  @override
+  State<CartButton> createState() => _CartButtonState();
+}
+
+class _CartButtonState extends State<CartButton> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? const CircularProgressIndicator(
+            color: Colors.black,
+          )
+        : TextButton(
+            style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+            )),
+            onPressed: widget.cart.itemsCount == 0
+                ? null
+                : () async {
+                    setState(() => _isLoading = true);
+
+                    await widget.orderList.addOrder(widget.cart);
+
+                    widget.cart.clear();
+
+                    setState(() => _isLoading = false);
+                  },
+            child: Text('COMPRAR'),
+          );
   }
 }
