@@ -7,6 +7,8 @@ import 'package:todo_app/utils/data.dart';
 class TodoProvider with ChangeNotifier {
   List<TodoModel> _todos = DUMMY_DATA;
 
+  List<TodoTag> _tags = [];
+
   List<TodoModel> get todosList {
     var filterList = _todos.where((todo) => todo.isDone == false).toList();
     filterList = [...filterList];
@@ -22,7 +24,8 @@ class TodoProvider with ChangeNotifier {
   }
 
   void addTodo(Map<String, dynamic> data) {
-    _todos.add(
+    _todos.insert(
+      0,
       TodoModel(
         id: Random().nextDouble().toString(),
         title: data['title'],

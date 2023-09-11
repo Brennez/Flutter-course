@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/components/input_todo_component.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/utils/my_theme.dart';
@@ -14,9 +15,10 @@ class TodoFormComponent extends StatefulWidget {
 }
 
 class _TodoFormComponentState extends State<TodoFormComponent> {
+  final TextEditingController _todoController = TextEditingController();
+
   TodoTag _tag = TodoTag.Personal;
   String _stringTag = 'Tags';
-  TextEditingController _todoController = new TextEditingController();
 
   Map<String, Object> _formData = {};
 
@@ -50,6 +52,135 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
     });
   }
 
+  Widget _dropDownMenuTags() {
+    return PopupMenuButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      itemBuilder: (context) {
+        return [
+          PopupMenuItem(
+            value: TodoTag.Personal,
+            child: Text(
+              'Pessoal',
+              style: myTheme.textTheme.displayMedium,
+            ),
+          ),
+          PopupMenuItem(
+            value: TodoTag.Work,
+            child: Text(
+              'Trabalho',
+              style: myTheme.textTheme.displayMedium,
+            ),
+          ),
+          PopupMenuItem(
+            value: TodoTag.Grocery,
+            child: Text(
+              'Mercado',
+              style: myTheme.textTheme.displayMedium,
+            ),
+          ),
+          PopupMenuItem(
+            value: TodoTag.Health,
+            child: Text(
+              'Saúde',
+              style: myTheme.textTheme.displayMedium,
+            ),
+          ),
+          PopupMenuItem(
+            value: TodoTag.Entertainment,
+            child: Text(
+              'Entretenimento',
+              style: myTheme.textTheme.displayMedium,
+            ),
+          ),
+        ];
+      },
+      onSelected: (value) {
+        setState(() {
+          _tag = value;
+          _stringTag = getTextTag(value);
+        });
+      },
+      child: Container(
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: kBackgroundColor,
+            width: 3,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _stringTag,
+                style: myTheme.textTheme.displayMedium,
+              ),
+              const Icon(Icons.arrow_drop_down)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _dropDownMenuIcons() {
+    return PopupMenuButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      itemBuilder: (context) {
+        return const [
+          PopupMenuItem(
+            value: '',
+            child: Text('Icone 1'),
+          ),
+          PopupMenuItem(
+            value: '',
+            child: Text('Icone 2'),
+          ),
+          PopupMenuItem(
+            value: '',
+            child: Text('Icone 3'),
+          ),
+          PopupMenuItem(
+            value: '',
+            child: Text('Icone 4'),
+          ),
+          PopupMenuItem(
+            value: '',
+            child: Text('Icone 5'),
+          ),
+        ];
+      },
+      child: Container(
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: kBackgroundColor,
+            width: 3,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Ícones',
+                style: myTheme.textTheme.displayMedium,
+              ),
+              const Icon(Icons.arrow_drop_down)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     TodoProvider provider = Provider.of<TodoProvider>(context, listen: true);
@@ -70,42 +201,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
           const SizedBox(
             height: 20,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .85,
-            child: Material(
-              elevation: 10,
-              shadowColor: kStrokeColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                controller: _todoController,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(10),
-                  hintText: 'Tarefa...',
-                  hintStyle: const TextStyle(
-                    fontFamily: 'Inter-Medium',
-                    color: Colors.grey,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kBackgroundColor,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  border: const OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: kStrokeColor,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                        width: 3,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-              ),
-            ),
-          ),
+          InputTodoComponent(todoController: _todoController),
           const SizedBox(
             height: 20,
           ),
@@ -115,136 +211,13 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: PopupMenuButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    itemBuilder: (context) {
-                      return [
-                        PopupMenuItem(
-                          value: TodoTag.Personal,
-                          child: Text(
-                            'Pessoal',
-                            style: myTheme.textTheme.displayMedium,
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: TodoTag.Work,
-                          child: Text(
-                            'Trabalho',
-                            style: myTheme.textTheme.displayMedium,
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: TodoTag.Grocery,
-                          child: Text(
-                            'Mercado',
-                            style: myTheme.textTheme.displayMedium,
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: TodoTag.Health,
-                          child: Text(
-                            'Saúde',
-                            style: myTheme.textTheme.displayMedium,
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: TodoTag.Entertainment,
-                          child: Text(
-                            'Entretenimento',
-                            style: myTheme.textTheme.displayMedium,
-                          ),
-                        ),
-                      ];
-                    },
-                    onSelected: (value) {
-                      setState(() {
-                        _tag = value;
-                        _stringTag = getTextTag(value);
-                      });
-                    },
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: kBackgroundColor,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _stringTag,
-                              style: myTheme.textTheme.displayMedium,
-                            ),
-                            Icon(Icons.arrow_drop_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: _dropDownMenuTags(),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Expanded(
-                  child: PopupMenuButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    itemBuilder: (context) {
-                      return [
-                        PopupMenuItem(
-                          value: '',
-                          child: Text('Icone 1'),
-                        ),
-                        PopupMenuItem(
-                          value: '',
-                          child: Text('Icone 2'),
-                        ),
-                        PopupMenuItem(
-                          value: '',
-                          child: Text('Icone 3'),
-                        ),
-                        PopupMenuItem(
-                          value: '',
-                          child: Text('Icone 4'),
-                        ),
-                        PopupMenuItem(
-                          value: '',
-                          child: Text('Icone 5'),
-                        ),
-                      ];
-                    },
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: kBackgroundColor,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Ícones',
-                              style: myTheme.textTheme.displayMedium,
-                            ),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: _dropDownMenuIcons(),
                 ),
               ],
             ),
@@ -299,6 +272,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                     ),
                     onPressed: () {
                       _submitForm(provider);
+                      Navigator.of(context).pop();
                     },
                     child: Row(
                       children: const [
