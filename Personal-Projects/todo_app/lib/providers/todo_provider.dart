@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/utils/data.dart';
@@ -19,8 +21,23 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addTodo(TodoModel todo) {
-    _todos.add(todo);
+  void addTodo(Map<String, dynamic> data) {
+    _todos.add(
+      TodoModel(
+        id: Random().nextDouble().toString(),
+        title: data['title'],
+        todoTag: data['todoTag'],
+        icon: data['IconData'],
+      ),
+    );
     notifyListeners();
+  }
+
+  void removeTodo(TodoModel todo) {
+    final id = _todos.indexWhere((todoItem) => todoItem.id == todo.id);
+
+    if (id != -1) {
+      _todos.removeAt(id);
+    }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/utils/my_theme.dart';
 
 import '../utils/consts_colors.dart';
@@ -12,7 +14,11 @@ class TodoFormComponent extends StatefulWidget {
 }
 
 class _TodoFormComponentState extends State<TodoFormComponent> {
-  String _tag = 'Tags';
+  TodoTag _tag = TodoTag.Personal;
+  String _stringTag = 'Tags';
+  TextEditingController _todoController = new TextEditingController();
+
+  Map<String, Object> _formData = {};
 
   String getTextTag(TodoTag todoTag) {
     switch (todoTag) {
@@ -32,8 +38,22 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
     }
   }
 
+  void _submitForm(TodoProvider provider) {
+    _formData['title'] = _todoController.text;
+    _formData['todoTag'] = _tag;
+    _formData['IconData'] = Icons.money;
+
+    provider.addTodo({
+      'title': _formData['title'],
+      'todoTag': _formData['todoTag'],
+      'IconData': Icons.money,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    TodoProvider provider = Provider.of<TodoProvider>(context, listen: true);
+
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -58,6 +78,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: TextField(
+                controller: _todoController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(10),
                   hintText: 'Tarefa...',
@@ -101,29 +122,45 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                       return [
                         PopupMenuItem(
                           value: TodoTag.Personal,
-                          child: Text('Pessoal'),
+                          child: Text(
+                            'Pessoal',
+                            style: myTheme.textTheme.displayMedium,
+                          ),
                         ),
                         PopupMenuItem(
                           value: TodoTag.Work,
-                          child: Text('Trabalho'),
+                          child: Text(
+                            'Trabalho',
+                            style: myTheme.textTheme.displayMedium,
+                          ),
                         ),
                         PopupMenuItem(
                           value: TodoTag.Grocery,
-                          child: Text('Mercado'),
+                          child: Text(
+                            'Mercado',
+                            style: myTheme.textTheme.displayMedium,
+                          ),
                         ),
                         PopupMenuItem(
                           value: TodoTag.Health,
-                          child: Text('Saúde'),
+                          child: Text(
+                            'Saúde',
+                            style: myTheme.textTheme.displayMedium,
+                          ),
                         ),
                         PopupMenuItem(
                           value: TodoTag.Entertainment,
-                          child: Text('Entretenimento'),
+                          child: Text(
+                            'Entretenimento',
+                            style: myTheme.textTheme.displayMedium,
+                          ),
                         ),
                       ];
                     },
                     onSelected: (value) {
                       setState(() {
-                        _tag = getTextTag(value);
+                        _tag = value;
+                        _stringTag = getTextTag(value);
                       });
                     },
                     child: Container(
@@ -142,7 +179,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              _tag,
+                              _stringTag,
                               style: myTheme.textTheme.displayMedium,
                             ),
                             Icon(Icons.arrow_drop_down)
@@ -230,7 +267,9 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Row(
                     children: const [
                       Icon(
@@ -258,7 +297,9 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 10),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _submitForm(provider);
+                    },
                     child: Row(
                       children: const [
                         Text(

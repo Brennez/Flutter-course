@@ -14,12 +14,16 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: myTheme,
-      home: ChangeNotifierProvider(
-        create: (context) => TodoProvider(),
-        child: HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TodoProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: myTheme,
+        home: HomePage(),
       ),
     );
   }

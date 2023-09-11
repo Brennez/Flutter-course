@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum TodoTag {
   Personal,
   Work,
@@ -10,13 +12,16 @@ class TodoModel {
   final String id;
   final String title;
   final TodoTag todoTag;
+  final IconData icon;
   bool isDone;
 
-  TodoModel(
-      {required this.id,
-      required this.title,
-      required this.isDone,
-      required this.todoTag});
+  TodoModel({
+    required this.id,
+    required this.title,
+    required this.todoTag,
+    required this.icon,
+    this.isDone = false,
+  });
 
   String get textTag {
     switch (todoTag) {
