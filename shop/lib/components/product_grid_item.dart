@@ -17,7 +17,7 @@ class ProductGridItem extends StatelessWidget {
 
     final cart = Provider.of<Cart>(
       context,
-      listen: false,
+      listen: true,
     );
 
     return ClipRRect(

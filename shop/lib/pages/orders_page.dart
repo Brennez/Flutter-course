@@ -5,25 +5,53 @@ import 'package:shop/models/order_list.dart';
 
 import '../components/order.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
   @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
+  Future<void> _refreshOrders(BuildContext context) async {
+    Provider.of<OrderList>(
+      context,
+      listen: false,
+    ).loadorders();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    OrderList orders = Provider.of<OrderList>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Meus Pedidos'),
-      ),
-      drawer: AppDrawer(),
-      body: ListView.builder(
-        itemCount: orders.itemsCount,
-        itemBuilder: (context, index) {
-          return OrderWidget(
-            order: orders.items[index],
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Meus Pedidos'),
+        ),
+        drawer: AppDrawer(),
+        body: FutureBuilder(
+          future: Provider.of<OrderList>(context, listen: false).loadorders(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Consumer<OrderList>(
+                builder: (context, orders, child) {
+                  return RefreshIndicator(
+                    onRefresh: () => _refreshOrders(context),
+                    child: ListView.builder(
+                      itemCount: orders.itemsCount,
+                      itemBuilder: (context, index) {
+                        return OrderWidget(
+                          order: orders.items[index],
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ));
   }
 }
