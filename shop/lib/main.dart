@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/pages/auth_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_page.dart';
 
@@ -41,8 +42,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ShopMy',
         theme: lightTheme,
-        home: ProductsOverviewPage(),
         routes: {
+          AppRoutes.AUTH: (context) => AuthPage(),
           AppRoutes.HOME: (context) => ProductsOverviewPage(),
           AppRoutes.PRODUCT_DETAIL: (context) => ProductDetailPage(),
           AppRoutes.CART: (context) => CartPage(),
