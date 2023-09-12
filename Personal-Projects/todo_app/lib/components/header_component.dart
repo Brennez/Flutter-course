@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/providers/todo_provider.dart';
 
 import '../utils/consts_colors.dart';
 import '../utils/my_theme.dart';
@@ -19,9 +21,13 @@ class HeaderComponent extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        Text(
-          '5 Incompleta, 5 Completas',
-          style: myTheme.textTheme.displayMedium,
+        Consumer<TodoProvider>(
+          builder: (context, todos, child) {
+            return Text(
+              '${todos.countTodos} Incompleta, ${todos.countTodosDone} Completas',
+              style: myTheme.textTheme.displayMedium,
+            );
+          },
         ),
         const SizedBox(
           height: 10,
