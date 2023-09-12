@@ -6,11 +6,14 @@ class TextButtonComponent extends StatelessWidget {
   final Color backgroundColor;
   final String label;
   final IconData icon;
+  final Function onPressed;
+
   const TextButtonComponent({
     super.key,
     required this.backgroundColor,
     required this.label,
     required this.icon,
+    required this.onPressed,
   });
 
   @override
@@ -24,10 +27,8 @@ class TextButtonComponent extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      child: SizedBox(
+      onPressed: () => onPressed(),
+      child: Container(
         width: 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

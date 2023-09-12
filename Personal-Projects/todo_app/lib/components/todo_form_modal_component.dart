@@ -188,12 +188,12 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
 
     return Container(
       padding: const EdgeInsets.all(10),
-      child: Expanded(
-        flex: 1,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
@@ -206,59 +206,62 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  InputTodoComponent(todoController: _todoController),
-                  const SizedBox(
-                    height: 20,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InputTodoComponent(todoController: _todoController),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .85,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _dropDownMenuTags(),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: _dropDownMenuIcons(),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .85,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: _dropDownMenuTags(),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: _dropDownMenuIcons(),
-                        ),
-                      ],
-                    ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * .85,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButtonComponent(
+                      backgroundColor: kStrokeColor,
+                      label: 'Voltar',
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: Icons.arrow_back),
+                  TextButtonComponent(
+                    backgroundColor: kSuccessColor,
+                    label: 'Adicionar',
+                    icon: Icons.add,
+                    onPressed: () => _submitForm(provider),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * .85,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    TextButtonComponent(
-                        backgroundColor: kStrokeColor,
-                        label: 'Voltar',
-                        icon: Icons.arrow_back),
-                    TextButtonComponent(
-                        backgroundColor: kSuccessColor,
-                        label: 'Adicionar',
-                        icon: Icons.add),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
