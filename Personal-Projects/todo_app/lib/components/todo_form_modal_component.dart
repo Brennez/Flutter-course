@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/components/input_todo_component.dart';
+import 'package:todo_app/components/text_button_component.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/utils/my_theme.dart';
@@ -20,7 +21,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
   TodoTag _tag = TodoTag.Personal;
   String _stringTag = 'Tags';
 
-  Map<String, Object> _formData = {};
+  final Map<String, Object> _formData = {};
 
   String getTextTag(TodoTag todoTag) {
     switch (todoTag) {
@@ -187,113 +188,77 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
 
     return Container(
       padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Adicione uma tarefa',
-            style: myTheme.textTheme.bodyLarge
-                ?.copyWith(color: kBackgroundColor, fontSize: 20),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          InputTodoComponent(todoController: _todoController),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .85,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Expanded(
+        flex: 1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: _dropDownMenuTags(),
-                ),
                 const SizedBox(
-                  width: 10,
+                  height: 20,
                 ),
-                Expanded(
-                  child: _dropDownMenuIcons(),
+                Text(
+                  'Adicione uma tarefa',
+                  style: myTheme.textTheme.bodyLarge
+                      ?.copyWith(color: kBackgroundColor, fontSize: 20),
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .85,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.center,
-                    backgroundColor: kStrokeColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 10),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InputTodoComponent(todoController: _todoController),
+                  const SizedBox(
+                    height: 20,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_back,
-                        size: 18,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Voltar',
-                        style: TextStyle(color: kTextPrimaryColor),
-                      ),
-                    ],
-                  ),
-                ),
-                TextButton(
-                    style: TextButton.styleFrom(
-                      alignment: Alignment.center,
-                      backgroundColor: const Color.fromARGB(255, 71, 129, 73),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                    ),
-                    onPressed: () {
-                      _submitForm(provider);
-                      Navigator.of(context).pop();
-                    },
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .85,
                     child: Row(
-                      children: const [
-                        Text(
-                          'Adicionar',
-                          style: TextStyle(color: kTextPrimaryColor),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: _dropDownMenuTags(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Icon(
-                          Icons.add,
-                          size: 18,
-                          color: kTextPrimaryColor,
-                        )
+                        Expanded(
+                          child: _dropDownMenuIcons(),
+                        ),
                       ],
-                    )),
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
+            Expanded(
+              flex: 2,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .85,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    TextButtonComponent(
+                        backgroundColor: kStrokeColor,
+                        label: 'Voltar',
+                        icon: Icons.arrow_back),
+                    TextButtonComponent(
+                        backgroundColor: kSuccessColor,
+                        label: 'Adicionar',
+                        icon: Icons.add),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
