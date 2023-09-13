@@ -32,16 +32,17 @@ class MyApp extends StatelessWidget {
           create: (context) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, ProductList>(
-          create: (context) => ProductList('', []),
+          create: (context) => ProductList(),
           update: (context, auth, previous) {
             return ProductList(
               auth.token ?? '',
+              auth.userId ?? '',
               previous?.items ?? [],
             );
           },
         ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
-          create: (context) => OrderList('', []),
+          create: (context) => OrderList(),
           update: (context, auth, previous) {
             return OrderList(auth.token ?? '', previous?.items ?? []);
           },
