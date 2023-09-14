@@ -1,13 +1,24 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/utils/data.dart';
 
 class TodoProvider with ChangeNotifier {
-  List<TodoModel> _todos = DUMMY_DATA;
+  List<TodoModel> _todos = [];
 
-  List<TodoTag> _tags = [];
+  final List<IconData> _icons = const [
+    FontAwesomeIcons.sackDollar,
+    FontAwesomeIcons.heartPulse,
+    FontAwesomeIcons.basketShopping,
+    FontAwesomeIcons.display,
+    FontAwesomeIcons.personRunning,
+    FontAwesomeIcons.building,
+    FontAwesomeIcons.pizzaSlice,
+  ];
+
+  List<IconData> get iconsList => [..._icons];
 
   List<TodoModel> get todosList {
     var filterList = _todos.where((todo) => todo.isDone == false).toList();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/components/input_todo_component.dart';
 import 'package:todo_app/components/text_button_component.dart';
@@ -20,6 +21,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
 
   TodoTag _tag = TodoTag.Personal;
   String _stringTag = 'Tags';
+  IconData _selectedIcon = FontAwesomeIcons.faceSmile;
 
   final Map<String, Object> _formData = {};
 
@@ -38,6 +40,28 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
 
       default:
         return 'Tag desconhecida';
+    }
+  }
+
+  IconData getIcon(String iconIndex) {
+    switch (iconIndex) {
+      case 'icon-1':
+        return FontAwesomeIcons.sackDollar;
+      case 'icon-2':
+        return FontAwesomeIcons.heartPulse;
+      case 'icon-3':
+        return FontAwesomeIcons.basketShopping;
+      case 'icon-4':
+        return FontAwesomeIcons.display;
+      case 'icon-5':
+        return FontAwesomeIcons.personRunning;
+      case 'icon-6':
+        return FontAwesomeIcons.building;
+      case 'icon-7':
+        return FontAwesomeIcons.pizzaSlice;
+
+      default:
+        return Icons.block;
     }
   }
 
@@ -129,31 +153,32 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
   }
 
   Widget _dropDownMenuIcons() {
+    TodoProvider todoProvider = Provider.of(context);
     return PopupMenuButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       itemBuilder: (context) {
-        return const [
-          PopupMenuItem(
-            value: '',
-            child: Text('Icone 1'),
-          ),
-          PopupMenuItem(
-            value: '',
-            child: Text('Icone 2'),
-          ),
-          PopupMenuItem(
-            value: '',
-            child: Text('Icone 3'),
-          ),
-          PopupMenuItem(
-            value: '',
-            child: Text('Icone 4'),
-          ),
-          PopupMenuItem(
-            value: '',
-            child: Text('Icone 5'),
-          ),
-        ];
+        int _iconIndex = 0;
+        return todoProvider.iconsList.map((icon) {
+          _iconIndex++;
+          return PopupMenuItem(
+            value: 'icon-$_iconIndex',
+            height: 4,
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                child: FaIcon(
+                  icon,
+                  color: kStrokeColor,
+                ),
+              ),
+            ),
+          );
+        }).toList();
+      },
+      onSelected: (value) {
+        setState(() {
+          _selectedIcon = getIcon(value);
+        });
       },
       child: Container(
         height: 40,
@@ -170,9 +195,9 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Ícones',
-                style: myTheme.textTheme.displayMedium,
+              FaIcon(
+                _selectedIcon,
+                color: kStrokeColor,
               ),
               const Icon(Icons.arrow_drop_down)
             ],
@@ -255,7 +280,10 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                     backgroundColor: kSuccessColor,
                     label: 'Adicionar',
                     icon: Icons.add,
-                    onPressed: () => _submitForm(provider),
+                    onPressed: () {
+                      _submitForm(provider);
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ],
               ),

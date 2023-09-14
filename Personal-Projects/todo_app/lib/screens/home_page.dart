@@ -39,28 +39,66 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: constraints.maxHeight * 0.01,
                     ),
-                    SizedBox(
-                      height: constraints.maxHeight * 0.03,
-                      child: Text(
-                        'Incompletas',
-                        style: myTheme.textTheme.bodyLarge,
+                    if (todoProvider.todosList.isEmpty &&
+                        todoProvider.todosIsDoneList.isEmpty)
+                      SizedBox(
+                        height: constraints.maxHeight * .80,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sem tarefas por enquanto. Relaxe!',
+                                textAlign: TextAlign.center,
+                                style: myTheme.textTheme.bodyLarge?.copyWith(
+                                  color: kSubtitleTextColor,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              SizedBox(
+                                width: 200,
+                                height: 200,
+                                child: Image.asset(
+                                  'assets/images/waiting.png',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: constraints.maxHeight * 0.01,
-                    ),
-                    SizedBox(
-                      height: constraints.maxHeight *
-                          (todoProvider.todosIsDoneList.isNotEmpty ? .35 : .80),
-                      child: ListView.builder(
-                        itemCount: todoProvider.todosList.length,
-                        itemBuilder: (context, index) {
-                          return TaskComponent(
-                            todo: todoProvider.todosList[index],
-                          );
-                        },
+                    if (todoProvider.todosList.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: constraints.maxHeight * 0.03,
+                            child: Text(
+                              'Incompletas',
+                              style: myTheme.textTheme.bodyLarge,
+                            ),
+                          ),
+                          SizedBox(
+                            height: constraints.maxHeight * 0.01,
+                          ),
+                          SizedBox(
+                            height: constraints.maxHeight *
+                                (todoProvider.todosIsDoneList.isNotEmpty
+                                    ? .35
+                                    : .80),
+                            child: ListView.builder(
+                              itemCount: todoProvider.todosList.length,
+                              itemBuilder: (context, index) {
+                                return TaskComponent(
+                                  todo: todoProvider.todosList[index],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
                     if (todoProvider.todosIsDoneList.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
