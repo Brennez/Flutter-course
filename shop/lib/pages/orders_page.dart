@@ -34,6 +34,10 @@ class _OrdersPageState extends State<OrdersPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Ocorreu um erro'),
+              );
             } else {
               return Consumer<OrderList>(
                 builder: (context, orders, child) {

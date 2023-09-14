@@ -54,7 +54,7 @@ class ProductList with ChangeNotifier {
     if (response.body == 'null') return;
 
     final favResponse = await http.get(
-      Uri.parse('${Consts.USER_FAVORIES_URL}/$_userId.json?auth=$_token'),
+      Uri.parse('${Consts.USER_FAVORITES_URL}/$_userId.json?auth=$_token'),
     );
 
     Map<String, dynamic> favData =

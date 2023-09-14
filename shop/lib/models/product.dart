@@ -32,7 +32,7 @@ class Product with ChangeNotifier {
 
     try {
       final response = await http.put(
-        Uri.parse('${Consts.USER_FAVORIES_URL}/$userId/$id.json?auth=$token'),
+        Uri.parse('${Consts.USER_FAVORITES_URL}/$userId/$id.json?auth=$token'),
         body: jsonEncode(isFavorite),
       );
 
