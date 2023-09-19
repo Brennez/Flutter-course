@@ -25,54 +25,59 @@ class AuthPage extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .8,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 70,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.white,
-                          blurRadius: 2,
-                          offset: Offset(8, 10),
-                        )
-                      ]),
-                  // #### cascade operator
-                  transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'shopMy',
-                        style: TextStyle(
-                          fontFamily: 'Anton',
-                          fontSize: 40,
-                          color: Theme.of(context).canvasColor,
-                        ),
+        Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .8,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 70,
+                        vertical: 10,
                       ),
-                      Expanded(child: Container()),
-                      const Icon(
-                        Icons.shopify_sharp,
-                        size: 40,
-                        color: Colors.white,
-                      )
-                    ],
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.black,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 2,
+                              offset: Offset(8, 10),
+                            )
+                          ]),
+                      // #### cascade operator
+                      transform: Matrix4.rotationZ(-8 * pi / 180)
+                        ..translate(-10.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'shopMy',
+                            style: TextStyle(
+                              fontFamily: 'Anton',
+                              fontSize: 40,
+                              color: Theme.of(context).canvasColor,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          const Icon(
+                            Icons.shopify_sharp,
+                            size: 40,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  AuthForm(),
+                ],
               ),
-              AuthForm(),
-            ],
+            ),
           ),
         ),
       ],
