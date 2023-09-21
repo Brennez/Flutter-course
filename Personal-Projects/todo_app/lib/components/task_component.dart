@@ -56,10 +56,10 @@ class TaskComponent extends StatelessWidget {
             subtitle: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Icon(
-                    Icons.monetization_on,
+                    todo.icon,
                     color: kFloatingActionButtonColor,
                     size: 18,
                   ),

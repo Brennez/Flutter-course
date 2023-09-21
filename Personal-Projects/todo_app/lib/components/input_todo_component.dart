@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../utils/consts_colors.dart';
 
-class InputTodoComponent extends StatelessWidget {
+class InputTodoComponent extends StatefulWidget {
   final TextEditingController todoController;
 
-  const InputTodoComponent({super.key, required this.todoController});
+  const InputTodoComponent({
+    Key? key,
+    required this.todoController,
+  });
 
+  @override
+  State<InputTodoComponent> createState() => _InputTodoComponentState();
+}
+
+class _InputTodoComponentState extends State<InputTodoComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -15,8 +23,8 @@ class InputTodoComponent extends StatelessWidget {
         elevation: 10,
         shadowColor: kStrokeColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: TextField(
-          controller: todoController,
+        child: TextFormField(
+          controller: widget.todoController,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(10),
             hintText: 'Tarefa...',
@@ -34,12 +42,13 @@ class InputTodoComponent extends StatelessWidget {
             ),
             border: const OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: kStrokeColor,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                  width: 3,
-                ),
-                borderRadius: BorderRadius.circular(10)),
+              borderSide: const BorderSide(
+                color: kStrokeColor,
+                strokeAlign: BorderSide.strokeAlignOutside,
+                width: 3,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
       ),

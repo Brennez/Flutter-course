@@ -65,18 +65,6 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
     }
   }
 
-  void _submitForm(TodoProvider provider) {
-    _formData['title'] = _todoController.text;
-    _formData['todoTag'] = _tag;
-    _formData['IconData'] = Icons.money;
-
-    provider.addTodo({
-      'title': _formData['title'],
-      'todoTag': _formData['todoTag'],
-      'IconData': Icons.money,
-    });
-  }
-
   Widget _dropDownMenuTags() {
     return PopupMenuButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -157,11 +145,11 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
     return PopupMenuButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       itemBuilder: (context) {
-        int _iconIndex = 0;
+        int iconIndex = 0;
         return todoProvider.iconsList.map((icon) {
-          _iconIndex++;
+          iconIndex++;
           return PopupMenuItem(
-            value: 'icon-$_iconIndex',
+            value: 'icon-$iconIndex',
             height: 4,
             child: SingleChildScrollView(
               child: Container(
@@ -211,6 +199,24 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
   Widget build(BuildContext context) {
     TodoProvider provider = Provider.of<TodoProvider>(context, listen: true);
 
+    void _submitForm() {
+      bool isValid = _todoController.text.isEmpty;
+
+      if (isValid) return;
+
+      _formData['title'] = _todoController.text;
+      _formData['todoTag'] = _tag;
+      _formData['IconData'] = _selectedIcon;
+
+      provider.addTodo({
+        'title': _formData['title'],
+        'todoTag': _formData['todoTag'],
+        'IconData': _formData['IconData'],
+      });
+
+      Navigator.of(context).pop();
+    }
+
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -240,7 +246,9 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                InputTodoComponent(todoController: _todoController),
+                InputTodoComponent(
+                  todoController: _todoController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -280,10 +288,7 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
                     backgroundColor: kSuccessColor,
                     label: 'Adicionar',
                     icon: Icons.add,
-                    onPressed: () {
-                      _submitForm(provider);
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: _submitForm,
                   ),
                 ],
               ),
