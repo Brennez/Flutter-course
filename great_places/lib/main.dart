@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/great_places.dart';
+import '../screens/place_form_screen.dart';
+import '../screens/places_list_screen.dart';
+import '../utils/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,6 +15,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ChangeNotifierProvider(
+      create: (context) => GreatPlaces(),
+      child: MaterialApp(
+        title: 'Great Places',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: PlacesListScreen(),
+        routes: {
+          AppRoutes.PLACE_FORM: (context) => PlaceFormScreen(),
+        },
+      ),
+    );
   }
 }
