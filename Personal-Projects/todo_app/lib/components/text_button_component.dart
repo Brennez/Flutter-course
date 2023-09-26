@@ -29,6 +29,7 @@ class TextButtonComponent extends StatelessWidget {
       ),
       onPressed: () => onPressed(),
       child: Container(
+        padding: const EdgeInsets.all(4),
         width: 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

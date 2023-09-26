@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/providers/todo_provider.dart';
 import 'package:todo_app/utils/my_theme.dart';
-
 import 'screens/home_page.dart';
 
 void main() {
@@ -21,6 +21,11 @@ class TodoApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [const Locale('pt', 'BR')],
         debugShowCheckedModeBanner: false,
         theme: myTheme,
         home: HomePage(),

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_app/models/todo_model.dart';
-import 'package:todo_app/utils/data.dart';
 
 class TodoProvider with ChangeNotifier {
   List<TodoModel> _todos = [];
