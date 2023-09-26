@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../models/auth_form_data.dart';
+import '../components/user_image_picker.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm({super.key});
+  final Function(AuthFormData) onSubmit;
+
+  const AuthForm({super.key, required this.onSubmit});
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -15,6 +20,29 @@ class _AuthFormState extends State<AuthForm> {
 
   void _submit() {
     bool isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    if (_authFormData.image == null && _authFormData.isSignup) {
+      return showError('Imagem Não selecionada!');
+    }
+
+    widget.onSubmit(_authFormData);
+  }
+
+  void handleImagePick(File image) {
+    _authFormData.image = image;
+  }
+
+  void showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.error,
+        content: Text(msg,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Colors.white,
+                )),
+      ),
+    );
   }
 
   @override
@@ -30,9 +58,11 @@ class _AuthFormState extends State<AuthForm> {
             child: Column(
               children: [
                 if (_authFormData.isSignup)
+                  UserImagePicker(onImagePick: handleImagePick),
+                if (_authFormData.isSignup)
                   TextFormField(
-                    key: ValueKey('name'),
-                    decoration: InputDecoration(
+                    key: const ValueKey('name'),
+                    decoration: const InputDecoration(
                       labelText: 'Nome',
                     ),
                     initialValue: _authFormData.name,
