@@ -1,4 +1,6 @@
+import 'package:chat/pages/auth_page.dart';
 import 'package:flutter/material.dart';
+import 'package:chat/utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'iChat',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 63, 6, 160)),
-        useMaterial3: true,
-      ),
-      home: Container(),
+      theme: lightTheme,
+      home: AuthPage(),
     );
   }
 }
