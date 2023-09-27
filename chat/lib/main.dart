@@ -1,3 +1,4 @@
+import 'package:chat/pages/auth_or_app_page.dart';
 import 'package:chat/pages/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chat/utils/theme.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'iChat',
       theme: lightTheme,
-      home: AuthPage(),
+      home: AuthOrAppPage(),
     );
   }
 }
