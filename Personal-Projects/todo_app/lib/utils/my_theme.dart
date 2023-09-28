@@ -31,6 +31,12 @@ final ThemeData myTheme = ThemeData(
       fontSize: 18,
       color: kTextPrimaryColor,
     ),
+    labelSmall: TextStyle(
+      fontFamily: 'Inter-Medium',
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      color: kTextPrimaryColor,
+    ),
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: kFloatingActionButtonColor,

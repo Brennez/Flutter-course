@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/components/input_todo_component.dart';
 import 'package:todo_app/components/text_button_component.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/providers/todo_provider.dart';
@@ -18,10 +17,11 @@ class TodoFormComponent extends StatefulWidget {
 
 class _TodoFormComponentState extends State<TodoFormComponent> {
   final TextEditingController _todoController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   TodoTag _tag = TodoTag.Personal;
-  String _stringTag = 'Tags';
   IconData _selectedIcon = FontAwesomeIcons.faceSmile;
+  String _stringTag = 'Tags';
 
   final Map<String, Object> _formData = {};
 
@@ -200,9 +200,9 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
     TodoProvider provider = Provider.of<TodoProvider>(context, listen: true);
 
     void _submitForm() {
-      bool isValid = _todoController.text.isEmpty;
-
-      if (isValid) return;
+      bool isValid = _formKey.currentState?.validate() ?? false;
+      print(isValid);
+      if (!isValid) return;
 
       _formData['title'] = _todoController.text;
       _formData['todoTag'] = _tag;
@@ -246,8 +246,46 @@ class _TodoFormComponentState extends State<TodoFormComponent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                InputTodoComponent(
-                  todoController: _todoController,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .85,
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _todoController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(10),
+                        hintText: 'Tarefa...',
+                        hintStyle: const TextStyle(
+                          fontFamily: 'Inter-Medium',
+                          color: Colors.grey,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: kBackgroundColor,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        border: const OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: kStrokeColor,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (_todo) {
+                        String todo = _todo ?? '';
+                        if (todo.isEmpty) {
+                          return 'O campo não pode ser vazio!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
