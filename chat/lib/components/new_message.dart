@@ -39,8 +39,16 @@ class _NewMessageState extends State<NewMessage> {
               contentPadding: const EdgeInsets.all(1),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(28),
-                borderSide: const BorderSide(
-                  width: 1,
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(28),
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),

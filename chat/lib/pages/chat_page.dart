@@ -1,30 +1,76 @@
-import 'package:chat/components/messages.dart';
-import 'package:chat/components/new_message.dart';
-import 'package:chat/core/services/auth/auth_service.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../components/messages.dart';
+import '../components/new_message.dart';
+import '../core/models/chat_notification.dart';
+import '../core/services/auth/auth_service.dart';
+import '../core/services/notification/chat_notification_service.dart';
+import '../pages/notification_page.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    int notifications =
+        Provider.of<ChatNotificationService>(context, listen: true).itemCount;
+
     return Scaffold(
-        backgroundColor: Theme.of(context).canvasColor,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text(
-            'My Chat',
-            style: Theme.of(context).textTheme.bodyMedium,
+      backgroundColor: Theme.of(context).canvasColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          'My Chat',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        elevation: 4,
+        centerTitle: true,
+        leading: Container(
+          margin: const EdgeInsets.only(top: 4),
+          child: Stack(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => NotificationPage(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    notifications > 0
+                        ? Icons.notifications
+                        : Icons.notifications_none,
+                    color: Colors.white,
+                  )),
+              if (notifications > 0)
+                Positioned(
+                  top: 5,
+                  left: 22,
+                  child: CircleAvatar(
+                    maxRadius: 10,
+                    backgroundColor: Colors.pinkAccent,
+                    child: Text(
+                      '${notifications}',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                ),
+            ],
           ),
-          elevation: 4,
-          centerTitle: true,
-          actions: [
-            DropdownButton(
+        ),
+        actions: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton(
               icon: const Icon(
                 Icons.more_vert_rounded,
                 color: Colors.white,
               ),
-              underline: Text(''),
               items: [
                 DropdownMenuItem(
                   value: 'logout',
@@ -48,23 +94,34 @@ class ChatPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
               onChanged: (value) {
                 if (value == 'logout') {
                   AuthService().logout();
                 }
               },
-            )
+            ),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: Messages()),
+            NewMessage(),
           ],
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(child: Messages()),
-              NewMessage(),
-            ],
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Provider.of<ChatNotificationService>(context, listen: false).add(
+              ChatNotification(
+                  title: 'Mais uma notificação!',
+                  body: Random().nextDouble().toString()),
+            );
+          },
+          child: Icon(Icons.add)),
+    );
   }
 }
