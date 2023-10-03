@@ -8,22 +8,24 @@ import '../utils/my_theme.dart';
 
 class HeaderComponent extends StatelessWidget {
   const HeaderComponent({super.key});
-// 'March 9, 2020',
+
+  String dateFormater(DateTime date) {
+    String dayFormated = DateFormat('d ').format(date);
+
+    String dateFormated = DateFormat('MMMM, yyyy', 'pt_BR').format(date);
+
+    return dayFormated +
+        dateFormated[0].toUpperCase() +
+        dateFormated.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: extrair a lógica de formatação para uma função
-    String dayFormated = DateFormat('d ').format(DateTime.now());
-
-    String dateFormated =
-        DateFormat('MMMM, yyyy', 'pt_BR').format(DateTime.now());
-    dateFormated =
-        dayFormated + dateFormated[0].toUpperCase() + dateFormated.substring(1);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          dateFormated,
+          dateFormater(DateTime.now()),
           style: myTheme.textTheme.displayLarge,
         ),
         const SizedBox(
