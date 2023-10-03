@@ -20,6 +20,35 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final todoProvider = Provider.of<TodoProvider>(context);
 
+    Future<bool> _showConfirmationModal() async {
+      return await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            title: Text(
+              'Confirmação',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: kCheckBoxStrokeColor,
+                  ),
+            ),
+            content: Text('Deseja excluir essa tarefa?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Sim'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) => Scaffold(
         backgroundColor: kBackgroundColor,
@@ -91,8 +120,32 @@ class _HomePageState extends State<HomePage> {
                             child: ListView.builder(
                               itemCount: todoProvider.todosList.length,
                               itemBuilder: (context, index) {
-                                return TaskComponent(
-                                  todo: todoProvider.todosList[index],
+                                return Dismissible(
+                                  onDismissed: (_) {
+                                    todoProvider.removeTodo(index);
+                                  },
+                                  confirmDismiss: (_) =>
+                                      _showConfirmationModal(),
+                                  direction: DismissDirection.endToStart,
+                                  background: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    alignment: Alignment.centerRight,
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: Icon(
+                                        Icons.delete,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  key: ValueKey<int>(index),
+                                  child: TaskComponent(
+                                    todo: todoProvider.todosList[index],
+                                  ),
                                 );
                               },
                             ),

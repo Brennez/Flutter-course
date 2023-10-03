@@ -7,7 +7,7 @@ import 'package:todo_app/models/todo_model.dart';
 import '../utils/data.dart';
 
 class TodoProvider with ChangeNotifier {
-  List<TodoModel> _todos = DUMMY_DATA;
+  List<TodoModel> _todos = [];
 
   final List<IconData> _icons = const [
     FontAwesomeIcons.sackDollar,
@@ -52,11 +52,7 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeTodo(TodoModel todo) {
-    final id = _todos.indexWhere((todoItem) => todoItem.id == todo.id);
-
-    if (id != -1) {
-      _todos.removeAt(id);
-    }
+  void removeTodo(int i) {
+    _todos.removeAt(i);
   }
 }
