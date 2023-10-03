@@ -33,10 +33,13 @@ class HeaderComponent extends StatelessWidget {
         ),
         Consumer<TodoProvider>(
           builder: (context, todos, child) {
-            return Text(
-              '${todos.countTodos} Incompleta, ${todos.countTodosDone} Completas',
-              style: myTheme.textTheme.displayMedium,
-            );
+            bool isVisible = todos.countTodos > 0 || todos.countTodosDone > 0;
+            return isVisible
+                ? Text(
+                    '${todos.countTodos} Incompletas, ${todos.countTodosDone} Completas',
+                    style: myTheme.textTheme.displayMedium,
+                  )
+                : const SizedBox();
           },
         ),
         const SizedBox(
