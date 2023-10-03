@@ -20,7 +20,11 @@ class Messages extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
             child: Text(
-              'Sem mensagens por enquanto, vamos conversar? ',
+              'Sem mensagens aqui por enquanto...',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
               textAlign: TextAlign.center,
             ),
           );

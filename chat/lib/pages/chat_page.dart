@@ -1,10 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/messages.dart';
 import '../components/new_message.dart';
-import '../core/models/chat_notification.dart';
 import '../core/services/auth/auth_service.dart';
 import '../core/services/notification/chat_notification_service.dart';
 import '../pages/notification_page.dart';
@@ -53,7 +51,7 @@ class ChatPage extends StatelessWidget {
                     maxRadius: 10,
                     backgroundColor: Colors.pinkAccent,
                     child: Text(
-                      '${notifications}',
+                      '$notifications',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: Colors.white,
                             fontSize: 12,
@@ -113,15 +111,15 @@ class ChatPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Provider.of<ChatNotificationService>(context, listen: false).add(
-              ChatNotification(
-                  title: 'Mais uma notificação!',
-                  body: Random().nextDouble().toString()),
-            );
-          },
-          child: Icon(Icons.add)),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () {
+      //       Provider.of<ChatNotificationService>(context, listen: false).add(
+      //         ChatNotification(
+      //             title: 'Mais uma notificação!',
+      //             body: Random().nextDouble().toString()),
+      //       );
+      //     },
+      //     child: Icon(Icons.add)),
     );
   }
 }
