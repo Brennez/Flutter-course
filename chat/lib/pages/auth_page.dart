@@ -16,6 +16,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> _handleSubmit(AuthFormData formData) async {
     try {
+      if (!mounted) return;
       setState(() => _isLoading = true);
       if (formData.isLogin) {
         await AuthService().login(formData.email, formData.password);
@@ -30,6 +31,7 @@ class _AuthPageState extends State<AuthPage> {
     } catch (error) {
       //TODO
     } finally {
+      if (!mounted) return;
       setState(() => _isLoading = false);
     }
   }
