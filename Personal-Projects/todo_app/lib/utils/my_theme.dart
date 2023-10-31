@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/utils/consts_colors.dart';
 
 final ThemeData myTheme = ThemeData(
-  colorScheme: ColorScheme.light(
+  colorScheme: const ColorScheme.light(
     background: kBackgroundColor,
     secondary: kFloatingActionButtonColor,
   ),
@@ -49,7 +49,7 @@ final ThemeData myTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(10),
-    hintStyle: TextStyle(
+    hintStyle: const TextStyle(
       fontFamily: 'Inter-Medium',
       color: Colors.grey,
     ),
@@ -63,7 +63,7 @@ final ThemeData myTheme = ThemeData(
     ),
     border: const OutlineInputBorder(),
     focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           strokeAlign: BorderSide.strokeAlignOutside,
           width: 2,
           color: kBackgroundColor,

@@ -11,13 +11,13 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   String _message = '';
-  TextEditingController _messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
   Future<void> _sendMessage() async {
     final user = AuthService().currentUser;
 
     if (user != null) {
-      final msg = await ChatService().save(_message, user);
-      print('A MENSAGEM FOI: ${msg?.id}');
+      await ChatService().save(_message, user);
       _messageController.clear();
     }
   }

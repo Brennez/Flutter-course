@@ -64,6 +64,7 @@ class ChatFirebaseService implements ChatService {
     );
   }
 
+  //  ChatMessage => Map<String, dynamic>
   Map<String, dynamic> _toFirestore(
       ChatMessage chatMessage, SetOptions? options) {
     return {
