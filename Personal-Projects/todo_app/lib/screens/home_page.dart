@@ -49,8 +49,8 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) => Scaffold(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
         backgroundColor: kBackgroundColor,
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -103,6 +103,9 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
+                            height: constraints.maxHeight * 0.01,
+                          ),
+                          SizedBox(
                             height: constraints.maxHeight * 0.03,
                             child: Text(
                               'Incompletas',
@@ -114,9 +117,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           SizedBox(
                             height: constraints.maxHeight *
-                                (todoProvider.todosIsDoneList.isNotEmpty
-                                    ? .35
-                                    : .80),
+                                (todoProvider.todosIsDoneList.isEmpty
+                                    ? .76
+                                    : .35),
                             child: ListView.builder(
                               itemCount: todoProvider.todosList.length,
                               itemBuilder: (context, index) {
@@ -170,7 +173,9 @@ class _HomePageState extends State<HomePage> {
                             height: constraints.maxHeight * 0.01,
                           ),
                           SizedBox(
-                            height: constraints.maxHeight * .35,
+                            height: todoProvider.todosList.isEmpty
+                                ? constraints.maxHeight * .76
+                                : constraints.maxHeight * .35,
                             child: ListView.builder(
                               itemCount: todoProvider.todosIsDoneList.length,
                               itemBuilder: (context, index) {
@@ -218,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             color: kTextPrimaryColor,
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
