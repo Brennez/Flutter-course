@@ -43,51 +43,102 @@ class MessageBubble extends StatelessWidget {
               ? MainAxisAlignment.end
               : MainAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 14,
-                horizontal: 10,
-              ),
-              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
-              decoration: BoxDecoration(
-                color: belongsToCurrentUser
-                    ? Colors.deepPurple
-                    : Color(0xff160e24),
-                borderRadius: BorderRadius.only(
-                  topRight: const Radius.circular(12),
-                  topLeft: const Radius.circular(12),
-                  bottomLeft: belongsToCurrentUser
-                      ? const Radius.circular(12)
-                      : const Radius.circular(0),
-                  bottomRight: belongsToCurrentUser
-                      ? const Radius.circular(0)
-                      : const Radius.circular(12),
+            GestureDetector(
+              onLongPress: belongsToCurrentUser
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              'Ações do usuário',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            content: Container(
+                              height: 100,
+                              child: Column(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Apagar',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Editar',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  : null,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 14,
+                  horizontal: 10,
                 ),
-              ),
-              width: 180,
-              child: Column(
-                crossAxisAlignment: belongsToCurrentUser
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    belongsToCurrentUser ? 'você' : message.userName,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
-                        ),
+                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
+                decoration: BoxDecoration(
+                  color: belongsToCurrentUser
+                      ? Colors.deepPurple
+                      : Color(0xff160e24),
+                  borderRadius: BorderRadius.only(
+                    topRight: const Radius.circular(12),
+                    topLeft: const Radius.circular(12),
+                    bottomLeft: belongsToCurrentUser
+                        ? const Radius.circular(12)
+                        : const Radius.circular(0),
+                    bottomRight: belongsToCurrentUser
+                        ? const Radius.circular(0)
+                        : const Radius.circular(12),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    message.text,
-                    textAlign:
-                        belongsToCurrentUser ? TextAlign.end : TextAlign.start,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                ],
+                ),
+                width: 180,
+                child: Column(
+                  crossAxisAlignment: belongsToCurrentUser
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      belongsToCurrentUser ? 'você' : message.userName,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      message.text,
+                      textAlign: belongsToCurrentUser
+                          ? TextAlign.end
+                          : TextAlign.start,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
