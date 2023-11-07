@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_app/models/todo_model.dart';
 
-import '../utils/data.dart';
-
 class TodoProvider with ChangeNotifier {
-  List<TodoModel> _todos = [];
+  final List<TodoModel> _todos = [];
 
   final List<IconData> _icons = const [
     FontAwesomeIcons.sackDollar,
@@ -54,5 +52,6 @@ class TodoProvider with ChangeNotifier {
 
   void removeTodo(int i) {
     _todos.removeAt(i);
+    notifyListeners();
   }
 }
